@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CEZOO Navbar</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html, body{
+    width:100%;
+    overflow-x:hidden;
+    font-family:Arial;
+}
+
+/* NAVBAR */
+.navbar{
+    width:100%;
+    height:70px;
+    background:#fff;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 16px;
+    position:fixed;
+    top:0;
+    left:0;
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
+    z-index:1000;
+}
+
+/* LOGO */
+.logo{
+    font-family:'Bungee', cursive;
+    font-size:28px;
+    color:#16a34a;
+}
+
+/* RIGHT SIDE */
+.right-side{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+/* 💰 BIG EARNINGS BOX */
+.earnings{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    font-size:18px;              /* 🔥 bigger text */
+    font-weight:700;
+
+    padding:10px 16px;           /* 🔥 bigger box */
+    border-radius:14px;
+
+    background:#111;
+    color:#fff;
+
+    cursor:pointer;
+
+    box-shadow:0 6px 14px rgba(0,0,0,0.18);
+
+    transition:0.25s ease;
+}
+
+.earnings i{
+    font-size:18px;
+    color:#22c55e;
+}
+
+/* hover effect */
+.earnings:hover{
+    transform:translateY(-2px);
+    background:#1f1f1f;
+}
+
+/* click */
+.earnings:active{
+    transform:scale(0.96);
+}
+
+/* PROFILE (clean image only) */
+.profile{
+    width:38px;
+    height:38px;
+    cursor:pointer;
+}
+
+.profile img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+/* MOBILE */
+@media (max-width:768px){
+
+    .navbar{
+        height:78px;
+        padding:0 18px;
+    }
+
+    .logo{
+        font-size:34px;
+    }
+
+    .earnings{
+        font-size:16px;
+        padding:12px 18px;   /* 🔥 still big on mobile */
+    }
+
+    .profile{
+        width:46px;
+        height:46px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+
+    <div class="logo">CEZOO</div>
+
+    <div class="right-side">
+
+        <!-- 💰 BIG EARNINGS -->
+        <div class="earnings" onclick="showEarnings()">
+            <i class="fa-solid fa-dollar-sign"></i>
+            <span>120</span>
+        </div>
+
+        <!-- 👤 PROFILE -->
+        <div class="profile" onclick="openProfile()">
+            <img src="bussiness-man.png" alt="profile">
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+function openProfile(){
+    alert("Profile Opened");
+}
+
+function showEarnings(){
+    alert("Your Earnings: $120");
+}
+
+</script>
+
+</body>
+</html>
