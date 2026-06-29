@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delivery Partner Registration</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Inter,Arial,sans-serif;
+}
+
+body{
+    background:#f4f6f8;
+    min-height:100vh;
+}
+
+/* TOP IMAGE TAKES 2/4 OF MOBILE SCREEN */
+.top-image{
+    width:100%;
+    height:45vh;
+    overflow:hidden;
+    border-bottom-left-radius:35px;
+    border-bottom-right-radius:35px;
+}
+
+.top-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+/* FORM SECTION */
+.form-wrapper{
+    background:#fff;
+    margin-top:-20px;
+    border-top-left-radius:30px;
+    border-top-right-radius:30px;
+    padding:25px;
+    min-height:55vh;
+}
+
+.heading{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.heading h2{
+    color:#16a34a;
+    font-size:28px;
+    margin-bottom:5px;
+}
+
+.heading p{
+    color:#666;
+    font-size:14px;
+}
+
+.progress{
+    text-align:center;
+    color:#16a34a;
+    font-weight:700;
+    margin-bottom:20px;
+}
+
+/* STEP FORM */
+.step{
+    display:none;
+    animation:fade .3s ease;
+}
+
+.step.active{
+    display:block;
+}
+
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateX(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    color:#333;
+    font-weight:600;
+}
+
+input,
+select{
+    width:100%;
+    padding:14px;
+    border:2px solid #e5e5e5;
+    border-radius:12px;
+    margin-bottom:18px;
+    font-size:15px;
+}
+
+input:focus,
+select:focus{
+    outline:none;
+    border-color:#16a34a;
+}
+
+.upload-card{
+    border:2px dashed #16a34a;
+    border-radius:15px;
+    padding:25px;
+    text-align:center;
+    background:#f0fff4;
+}
+
+.upload-card h3{
+    color:#16a34a;
+    margin-bottom:10px;
+}
+
+.upload-card p{
+    color:#666;
+    margin-bottom:15px;
+}
+
+.upload-card input{
+    border:none;
+    background:none;
+}
+
+/* BUTTONS */
+.buttons{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+button{
+    flex:1;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:16px;
+    font-weight:600;
+}
+
+.prev{
+    background:#e5e7eb;
+}
+
+.next{
+    background:#16a34a;
+    color:#fff;
+}
+
+.submit{
+    background:#15803d;
+    color:#fff;
+}
+
+.success{
+    text-align:center;
+    padding:20px;
+}
+
+.success h2{
+    color:#16a34a;
+    margin-bottom:10px;
+}
+
+.success p{
+    color:#666;
+}
+
+@media(min-width:768px){
+
+    body{
+        display:flex;
+        justify-content:center;
+        padding:20px;
+    }
+
+    .container{
+        width:450px;
+        background:#fff;
+        border-radius:30px;
+        overflow:hidden;
+        box-shadow:0 10px 30px rgba(0,0,0,.1);
+    }
+
+    .top-image{
+        height:350px;
+    }
+}
+@keyframes shake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-10px); }
+    40% { transform: translateX(10px); }
+    60% { transform: translateX(-10px); }
+    80% { transform: translateX(10px); }
+    100% { transform: translateX(0); }
+}
+
+.shake{
+    animation:shake .4s ease;
+}
+.success-page{
+    position:fixed;
+    inset:0;
+    background:#ffffff;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    z-index:99999;
+}
+
+.success-circle{
+    width:140px;
+    height:140px;
+    border-radius:50%;
+    background:#16a34a;
+    color:#fff;
+    font-size:75px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 0 0 20px rgba(22,163,74,.08),
+               0 0 0 40px rgba(22,163,74,.05);
+    animation:successPop .7s ease;
+}
+
+.success-page h1{
+    margin-top:30px;
+    font-size:32px;
+    color:#111;
+    font-weight:700;
+}
+
+.success-page p{
+    margin-top:10px;
+    color:#666;
+    font-size:16px;
+    text-align:center;
+    padding:0 25px;
+}
+
+/* Confetti */
+
+.confetti{
+    position:absolute;
+    width:12px;
+    height:12px;
+    border-radius:3px;
+    animation:fall 3s linear infinite;
+}
+
+.c1{background:#FFD700;left:15%;top:-20px;animation-delay:.1s;}
+.c2{background:#16a34a;left:25%;top:-20px;animation-delay:.5s;}
+.c3{background:#3b82f6;left:40%;top:-20px;animation-delay:.9s;}
+.c4{background:#FFD700;left:55%;top:-20px;animation-delay:.3s;}
+.c5{background:#ef4444;left:70%;top:-20px;animation-delay:1.2s;}
+.c6{background:#16a34a;left:80%;top:-20px;animation-delay:.7s;}
+.c7{background:#3b82f6;left:50%;top:-20px;animation-delay:1.5s;}
+.c8{background:#FFD700;left:35%;top:-20px;animation-delay:1.8s;}
+
+@keyframes fall{
+    0%{
+        transform:translateY(-50px) rotate(0deg);
+        opacity:1;
+    }
+    100%{
+        transform:translateY(110vh) rotate(720deg);
+        opacity:0;
+    }
+}
+
+@keyframes successPop{
+    0%{
+        transform:scale(0);
+    }
+    60%{
+        transform:scale(1.15);
+    }
+    100%{
+        transform:scale(1);
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- REPLACE IMAGE -->
+    <div class="top-image">
+        <img src="image3.png" alt="Delivery Partner">
+    </div>
+
+    <div class="form-wrapper">
+
+        <div class="heading">
+            <h2></h2>
+            <p>Become a Delivery Partner</p>
+        </div>
+
+        <div class="progress">
+            Step <span id="stepNo">1</span> of 8
+        </div>
+
+        <!-- STEP 1 -->
+        <div class="step active">
+            <label>Full Name</label>
+           <input type="text" id="name" placeholder="Enter Full Name">
+            <label>Mobile Number</label>
+           <input type="tel" id="mobile" placeholder="Enter Mobile Number">
+
+            <label>Gender</label>
+           <select id="gender">
+                <option>Select Gender</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="step">
+            <label>Vehicle Number</label>
+            <input type="text" id="vehicle" placeholder="AP39AB1234">
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="step">
+            <div class="upload-card">
+                <h3>RC Card Upload</h3>
+                <p>Upload Vehicle RC Card</p>
+               <input type="file" id="rcCard" accept="image/jpeg,image/png,image/webp,application/pdf">
+            </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="step">
+            <div class="upload-card">
+                <h3>Driving License Upload</h3>
+                <p>Upload License Image</p>
+        <input type="file" id="license" accept="image/jpeg,image/png,image/webp,application/pdf">
+            </div>
+        </div>
+
+        <!-- STEP 5 -->
+        <div class="step">
+            <div class="upload-card">
+                <h3>Bike Insurance Upload</h3>
+                <p>Upload Insurance Copy</p>
+             <input type="file" id="insurance" accept="image/jpeg,image/png,image/webp,application/pdf">
+            </div>
+        </div>
+
+        <!-- STEP 6 -->
+        <div class="step">
+            <div class="upload-card">
+                <h3>Aadhaar Card Upload</h3>
+                <p>Upload Aadhaar Front/Back</p>
+              <input type="file" id="aadhaar" accept="image/jpeg,image/png,image/webp,application/pdf">
+            </div>
+        </div>
+
+        <!-- STEP 7 -->
+        <div class="step">
+            <div class="upload-card">
+                <h3>PAN Card Upload</h3>
+                <p>Upload PAN Card</p>
+               <input type="file" id="pan" accept="image/jpeg,image/png,image/webp,application/pdf">
+            </div>
+        </div>
+
+        <!-- STEP 8 -->
+        <div class="step">
+            <div class="success">
+                <h2>Ready to Submit</h2>
+                <p>Please verify all details and submit your application.</p>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button class="prev" onclick="prevStep()">Previous</button>
+            <button class="next" id="nextBtn" onclick="nextStep()">Next</button>
+        </div>
+
+    </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://fraonjwuarhkwakuitbv.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_30MjlIPaYGp3HS0wk7kGbQ_JO7hYUjS";
+
+
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const steps = document.querySelectorAll(".step");
+const stepNo = document.getElementById("stepNo");
+const nextBtn = document.getElementById("nextBtn");
+
+let current = 0;
+let isSubmitting = false;
+
+function showStep(index){
+
+    steps.forEach(step=>{
+        step.classList.remove("active");
+    });
+
+    steps[index].classList.add("active");
+
+    stepNo.innerText = index + 1;
+
+    document.querySelector(".prev").style.visibility =
+    index === 0 ? "hidden" : "visible";
+
+    if(index === steps.length - 1){
+        nextBtn.innerText = "Submit";
+        nextBtn.classList.add("submit");
+    }else{
+        nextBtn.innerText = "Next";
+        nextBtn.classList.remove("submit");
+    }
+}
+
+function shakeScreen(){
+
+    document.querySelector(".container").classList.add("shake");
+
+    if(navigator.vibrate){
+        navigator.vibrate(200);
+    }
+
+    setTimeout(()=>{
+        document.querySelector(".container").classList.remove("shake");
+    },400);
+}
+
+function validateStep(){
+
+    if(current === 0){
+
+        let name = document.getElementById("name").value.trim();
+        let mobile = document.getElementById("mobile").value.trim();
+        let gender = document.getElementById("gender").value;
+
+        if(name === "" || !/^[0-9]{10}$/.test(mobile) || gender === "Select Gender"){
+            shakeScreen();
+            return false;
+        }
+    }
+
+    if(current === 1){
+
+        let vehicle = document.getElementById("vehicle").value.trim();
+
+        if(vehicle === ""){
+            shakeScreen();
+            return false;
+        }
+    }
+
+    if(current === 2 && document.getElementById("rcCard").files.length === 0){
+        shakeScreen();
+        return false;
+    }
+
+    if(current === 3 && document.getElementById("license").files.length === 0){
+        shakeScreen();
+        return false;
+    }
+
+    if(current === 4 && document.getElementById("insurance").files.length === 0){
+        shakeScreen();
+        return false;
+    }
+
+    if(current === 5 && document.getElementById("aadhaar").files.length === 0){
+        shakeScreen();
+        return false;
+    }
+
+    if(current === 6 && document.getElementById("pan").files.length === 0){
+        shakeScreen();
+        return false;
+    }
+
+    return true;
+}
+
+function cleanFileName(name){
+    return name
+        .toLowerCase()
+        .replace(/[^a-z0-9.]/g, "-")
+        .replace(/-+/g, "-");
+}
+
+async function uploadOneFile(inputId, folderMobile){
+
+    const input = document.getElementById(inputId);
+    const file = input.files[0];
+
+    if(!file){
+        throw new Error(inputId + " file missing");
+    }
+
+    const safeName = cleanFileName(file.name);
+    const filePath = `${folderMobile}/${Date.now()}-${inputId}-${safeName}`;
+
+    const { error } = await sb
+        .storage
+        .from("delivery-documents")
+        .upload(filePath, file, {
+            cacheControl: "3600",
+            upsert: false
+        });
+
+    if(error){
+        throw new Error(inputId + " upload failed: " + error.message);
+    }
+
+    return filePath;
+}
+
+async function submitApplication(){
+
+    if(isSubmitting) return;
+
+    isSubmitting = true;
+    nextBtn.disabled = true;
+    nextBtn.innerText = "Uploading...";
+
+    try{
+
+        const fullName = document.getElementById("name").value.trim();
+        const mobile = document.getElementById("mobile").value.trim();
+        const gender = document.getElementById("gender").value;
+        const vehicle = document.getElementById("vehicle").value.trim().toUpperCase();
+
+        const rcCardPath = await uploadOneFile("rcCard", mobile);
+        const licensePath = await uploadOneFile("license", mobile);
+        const insurancePath = await uploadOneFile("insurance", mobile);
+        const aadhaarPath = await uploadOneFile("aadhaar", mobile);
+        const panPath = await uploadOneFile("pan", mobile);
+
+        nextBtn.innerText = "Saving...";
+
+        const { error } = await sb
+            .from("delivery_partner_applications")
+            .insert([
+                {
+                    full_name: fullName,
+                    mobile: mobile,
+                    gender: gender,
+                    vehicle_number: vehicle,
+                    rc_card_path: rcCardPath,
+                    license_path: licensePath,
+                    insurance_path: insurancePath,
+                    aadhaar_path: aadhaarPath,
+                    pan_path: panPath,
+                    status: "pending"
+                }
+            ]);
+
+        if(error){
+            throw new Error(error.message);
+        }
+
+        localStorage.setItem("partner_mobile", mobile);
+
+showSuccessPage();
+
+    }catch(error){
+
+        alert("Submit failed: " + error.message);
+
+        isSubmitting = false;
+        nextBtn.disabled = false;
+        nextBtn.innerText = "Submit";
+    }
+}
+
+function nextStep(){
+
+    if(!validateStep()){
+        return;
+    }
+
+    if(current === steps.length - 1){
+        submitApplication();
+        return;
+    }
+
+    current++;
+    showStep(current);
+}
+
+function prevStep(){
+
+    if(isSubmitting) return;
+
+    if(current > 0){
+        current--;
+        showStep(current);
+    }
+}
+
+function showSuccessPage(){
+
+    document.body.innerHTML = `
+
+    <div class="success-page">
+
+        <div class="confetti c1"></div>
+        <div class="confetti c2"></div>
+        <div class="confetti c3"></div>
+        <div class="confetti c4"></div>
+        <div class="confetti c5"></div>
+        <div class="confetti c6"></div>
+        <div class="confetti c7"></div>
+        <div class="confetti c8"></div>
+
+        <div class="success-circle">
+            ✓
+        </div>
+
+        <h1>Application Submitted</h1>
+
+        <div style="
+            margin-top:18px;
+            background:#fff7ed;
+            color:#f97316;
+            padding:12px 20px;
+            border-radius:30px;
+            font-weight:800;
+            font-size:16px;
+            border:1px solid #fed7aa;
+        ">
+            Application Status: Pending
+        </div>
+
+        <p>
+            Your documents have been uploaded successfully.
+            Admin will verify your application soon.
+        </p>
+
+        <button onclick="window.location.href='verification.html'" style="
+            margin-top:18px;
+            border:none;
+            background:#16a34a;
+            color:white;
+            padding:8px 22px;
+            border-radius:10px;
+            font-size:14px;
+            font-weight:700;
+            width:auto;
+            min-width:90px;
+            flex:unset;
+        ">
+            Done
+        </button>
+
+    </div>
+
+    `;
+
+    setTimeout(() => {
+       const savedMobile = localStorage.getItem("partner_mobile");
+
+window.location.href = "verification.html?mobile=" + encodeURIComponent(savedMobile);
+    }, 4000);
+}
+showStep(0);
+
+const params = new URLSearchParams(window.location.search);
+const mobileFromUrl = params.get("mobile");
+const mobileFromStorage = localStorage.getItem("partner_mobile");
+
+if(mobileFromUrl){
+    document.getElementById("mobile").value = mobileFromUrl;
+}else if(mobileFromStorage){
+    document.getElementById("mobile").value = mobileFromStorage;
+}
+</script>
+
+</body>
+</html>
